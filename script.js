@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
   // Quando clicar no botão "Iniciar"
   btnStart.addEventListener("click", function() {
     recognition.start(); // Iniciar o reconhecimento de voz
+    textOutput.innerHTML = ''; // Limpar o texto anterior
   });
 
   // Quando clicar no botão "Parar"
@@ -18,10 +19,15 @@ document.addEventListener("DOMContentLoaded", function() {
     recognition.stop(); // Parar o reconhecimento de voz
   });
 
-  // Evento chamado quando o reconhecimento de voz é concluído
+  // Evento chamado para cada pedaço de transcrição concluída
   recognition.onresult = function(event) {
-    var transcript = event.results[0][0].transcript; // Capturar a transcrição
-    textOutput.innerHTML += transcript + "<br>"; // Adicionar a transcrição ao elemento de texto
+    var transcript = '';
+    for (var i = event.resultIndex; i < event.results.length; ++i) {
+      if (event.results[i].isFinal) {
+        transcript += event.results[i][0].transcript + "<br>";
+      }
+    }
+    textOutput.innerHTML += transcript; // Adicionar a transcrição ao elemento de texto
   };
 
   // Tratar possíveis erros
@@ -29,5 +35,3 @@ document.addEventListener("DOMContentLoaded", function() {
     console.error("Erro no reconhecimento de voz: ", event.error);
   };
 });
-
-
