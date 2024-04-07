@@ -1,37 +1,27 @@
-document.addEventListener("DOMContentLoaded", function() {
-  var recognition = new webkitSpeechRecognition() || new SpeechRecognition();
-  recognition.lang = 'pt-BR'; // Definir o idioma para português do Brasil
-  recognition.continuous = true; // Continuar ouvindo após a primeira transcrição
+document.addEventListener('DOMContentLoaded', function() {
+    var button = document.getElementById('dictateButton');
+    var input = document.getElementById('textInput');
 
-  // Botões e elementos do DOM
-  var btnStart = document.getElementById("btnStart");
-  var btnStop = document.getElementById("btnStop");
-  var textOutput = document.querySelector(".texto");
-
-  // Quando clicar no botão "Iniciar"
-  btnStart.addEventListener("click", function() {
-    recognition.start(); // Iniciar o reconhecimento de voz
-    textOutput.innerHTML = ''; // Limpar o texto anterior
-  });
-
-  // Quando clicar no botão "Parar"
-  btnStop.addEventListener("click", function() {
-    recognition.stop(); // Parar o reconhecimento de voz
-  });
-
-  // Evento chamado para cada pedaço de transcrição concluída
-  recognition.onresult = function(event) {
-    var transcript = '';
-    for (var i = event.resultIndex; i < event.results.length; ++i) {
-      if (event.results[i].isFinal) {
-        transcript += event.results[i][0].transcript + "<br>";
-      }
+    // Verifica se a API de reconhecimento de fala é suportada
+    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+    if (typeof SpeechRecognition === "undefined") {
+        button.disabled = true;
+        button.textContent = "Reconhecimento de fala não suportado";
+        return;
     }
-    textOutput.innerHTML += transcript; // Adicionar a transcrição ao elemento de texto
-  };
 
-  // Tratar possíveis erros
-  recognition.onerror = function(event) {
-    console.error("Erro no reconhecimento de voz: ", event.error);
-  };
+    var recognition = new SpeechRecognition();
+    recognition.continuous = false; // Reinicia automaticamente a captura após o usuário parar de falar
+    recognition.lang = "pt-BR"; // Define o idioma para Português do Brasil
+    recognition.interimResults = false; // Resultados provisórios são desabilitados
+
+    recognition.onresult = function(event) {
+        var lastResult = event.results.length - 1;
+        var text = event.results[lastResult][0].transcript;
+        input.value = text; // Define o texto reconhecido no campo de entrada
+    };
+
+    button.onclick = function() {
+        recognition.start(); // Inicia o reconhecimento de fala
+    };
 });
