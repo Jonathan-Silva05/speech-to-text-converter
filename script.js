@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     recognition.onresult = function(event) {
         var lastResult = event.results.length - 1;
         var text = event.results[lastResult][0].transcript;
-        input.value = text; // Define o texto reconhecido no campo de entrada
+        input.value += (input.value ? " " : "") + text; // Acrescenta o texto reconhecido ao valor atual, adicionando um espaço se necessário
     };
 
     button.onclick = function() {
