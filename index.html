@@ -3,25 +3,12 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title> Conversor de Voz em Texto </title>
-	<link rel="stylesheet" type="text/css" href="style.css">
-	<style type="text/css">
-		@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css");
-	</style>
+    <title>Dictation Button</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-	<div style="padding: 20px;">
-		<h1> Converter voz para texto </h1>
-		<i class="fa fa-microphone"></i>
-
-		<button class="btn btn-success" id="btnStart"> Iniciar </button>
-		<button class="btn btn-danger" id="btnStop"> Parar </button>
-	</div>
-
-	<p> Corpo do texto: </p>
-
-	<div class="texto" style="padding: 20px;"> </div>
-
-	<script type="text/javascript" src="script.js"></script>
+    <button id="dictateButton">Ditar</button>
+    <input type="text" id="textInput" placeholder="Comece a ditar...">
+    <script src="script.js"></script>
 </body>
 </html>
